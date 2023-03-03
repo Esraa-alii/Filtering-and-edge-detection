@@ -77,7 +77,7 @@ def median_filter(data, filter_size):
             temp = []
     return data_final
   
- img = Image.open("Unoise girl image.jpeg")
+img = Image.open("Unoise girl image.jpeg")
 arr = np.array(img)
 removed_noise = median_filter(arr, 5) 
 img1 = Image.fromarray(removed_noise)
@@ -94,58 +94,46 @@ plt.imshow(img1, cmap="gray")
 plt.axis('off')
 
 # average filter
-# Read the image
-img = cv2.imread('Unoise girl image.jpeg', 0)
-m, n = img.shape
+def Apply_average_filter(img):
+  img_width, img_height = img.shape
 
-# Develop Averaging filter(3, 3) mask
-mask = np.ones([3, 3], dtype = int)
-mask = mask / 9
+  # Develop Averaging filter(3, 3) kernal
+  kernal = np.ones([3, 3], dtype = int)
+  kernal = kernal / 9
 
-# Convolve the 3X3 mask over the image
-img_new = np.zeros([m, n])
+  # Convolve the 3X3 mask over the image
+  img_new = np.zeros([img_width, img_height])
 
-for i in range(1, m-1):
-	for j in range(1, n-1):
-		temp = img[i-1, j-1]*mask[0, 0]+img[i-1, j]*mask[0, 1]+img[i-1, j + 1]*mask[0, 2]+img[i, j-1]*mask[1, 0]+ img[i, j]*mask[1, 1]+img[i, j + 1]*mask[1, 2]+img[i + 1, j-1]*mask[2, 0]+img[i + 1, j]*mask[2, 1]+img[i + 1, j + 1]*mask[2, 2]
-		
-		img_new[i, j]= temp
-		
-img_new = img_new.astype(np.uint8)
-
-plt.figure(figsize=(15,6))
-plt.subplot(121)
-plt.title("Noised image")
-plt.imshow(img, vmin=0, vmax=255)
-plt.axis('off')
-plt.imshow(img, cmap="gray")
-plt.subplot(122)
-plt.title("Averag Filtered")
-plt.imshow(img_new, vmin=0, vmax=255)
-plt.axis('off')
-plt.imshow(img_new, cmap="gray")
+  for i in range(1, img_width-1):
+    for j in range(1, img_height-1):
+      temp = img[i-1, j-1]*kernal[0, 0]+img[i-1, j]*kernal[0, 1]+img[i-1, j + 1]*kernal[0, 2]+img[i, j-1]*kernal[1, 0]+ img[i, j]*kernal[1, 1]+img[i, j + 1]*kernal[1, 2]+img[i + 1, j-1]*kernal[2, 0]+img[i + 1, j]*kernal[2, 1]+img[i + 1, j + 1]*kernal[2, 2]
+      img_new[i, j]= temp
+      
+  img_new = img_new.astype(np.uint8)
+  plt.imshow(img_new, cmap="gray")
+  plt.axis('off')
 
 
-def gkernel(l=3, sig=2):
+# def gkernel(l=3, sig=2):
    
-    # Gaussian Kernel Creator via given length and sigma
-    ax = np.linspace(-(l - 1) / 2., (l - 1) / 2., l)
-    xx, yy = np.meshgrid(ax, ax)
-    kernel = np.exp(-0.5 * (np.square(xx) + np.square(yy)) / np.square(sig))
-    return kernel / np.sum(kernel)
+#     # Gaussian Kernel Creator via given length and sigma
+#     ax = np.linspace(-(l - 1) / 2., (l - 1) / 2., l)
+#     xx, yy = np.meshgrid(ax, ax)
+#     kernel = np.exp(-0.5 * (np.square(xx) + np.square(yy)) / np.square(sig))
+#     return kernel / np.sum(kernel)
 
-img = cv2.imread('/Users/rawanghanemhmx/Desktop/Filters/Unoise girl image.jpeg') # Reading Image
-g_kernel = gkernel(3,2) # Create gaussian kernel with 3x3(odd) size and sigma equals to 2
-print("Gaussian Filter: ",g_kernel) # show the kernel array
-dst = cv2.filter2D(img,-1,g_kernel) #convolve kernel with image
-plt.figure(figsize=(15,6))
-plt.subplot(121)
-plt.title("Noised image")
-plt.imshow(img, vmin=0, vmax=255)
-plt.axis('off')
-plt.imshow(img)
-plt.subplot(122)
-plt.title("gaussian Filtered")
-plt.imshow(img_new, vmin=0, vmax=255)
-plt.axis('off')
-plt.imshow(img_new, cmap="gray")
+# img = cv2.imread('/Users/rawanghanemhmx/Desktop/Filters/Unoise girl image.jpeg') # Reading Image
+# g_kernel = gkernel(3,2) # Create gaussian kernel with 3x3(odd) size and sigma equals to 2
+# print("Gaussian Filter: ",g_kernel) # show the kernel array
+# dst = cv2.filter2D(img,-1,g_kernel) #convolve kernel with image
+# plt.figure(figsize=(15,6))
+# plt.subplot(121)
+# plt.title("Noised image")
+# plt.imshow(img, vmin=0, vmax=255)
+# plt.axis('off')
+# plt.imshow(img)
+# plt.subplot(122)
+# plt.title("gaussian Filtered")
+# plt.imshow(img_new, vmin=0, vmax=255)
+# plt.axis('off')
+# plt.imshow(img_new, cmap="gray")
