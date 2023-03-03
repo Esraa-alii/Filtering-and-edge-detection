@@ -1,14 +1,21 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 from skimage.io import imread
-from scipy.stats import norm
-import numpy as np
-import yehia as freq
+import yehia as y
 
 def show_output(file_path):
     with col2:
         st.header("Output")
         st.image(file_path)
+
+def modes(varaible):
+    if varaible == "Vertical":
+        mode = 0
+    elif varaible is "Horizontal":
+        mode = 1
+    else:
+        mode = 2
+    return mode
 
 col1, col2 = st.columns(2)
 with st.sidebar:
@@ -22,9 +29,9 @@ if image_input is not None:
         st.image(rgb_image) # showing the RGB image
     if tab is "2":
         with st.sidebar:
-            modes = st.radio("Required",["Histogram","Distribution Curve"],horizontal=True)
-        if modes is "Histogram":
-            path_histogram = freq.Histogram(image)
+            modes = st.radio("Histogram",["Normal","Equalized"],horizontal=True)
+        if modes is "Normal":
+            path_histogram = y.Histogram(image)
             show_output(path_histogram)
         # else:
             # mean = np.mean(data)
@@ -33,12 +40,17 @@ if image_input is not None:
             # distribution_curve_path = "distribution_curve.png"
             # plt.savefig(distribution_curve_path)
             # show_output(distribution_curve_path)
-    # elif tab is "1":
-    #     with st.sidebar:
-    #         edge_detect = st.radio("technique",["Sobel","Roberts","Prewitt","Canny"])
-    #         if edge_detect is "Sobel":
-    #             sobel = st.radio("Sobel ",["Vertical","Horizontal","Both"])
-    #             if sobel is "Vertical":
-    #                 fil.sobel_filter()
+    elif tab is "1":
+        with st.sidebar:
+            edge_detect = st.radio("Techniques",["Sobel","Roberts","Prewitt","Canny edge"],horizontal=True)
+            if edge_detect is "Sobel":
+                sobel = st.radio("Sobel",["Vertical","Horizontal","Both"],horizontal=True)
+                show_output(y.sobel_filter(image,modes(sobel)))
+            if edge_detect is "Roberts":
+                roberts = st.radio("Roberts",["Vertical","Horizontal","Both"],horizontal=True)
+                show_output(y.roberts_filter(image,modes(roberts)))
+            if edge_detect is "Prewitt":
+                prewitt = st.radio("Prewitt",["Vertical","Horizontal","Both"],horizontal=True)
+                show_output(y.prewitt_filter(image,modes(prewitt)))
     else:
         st.write("Nothing")
