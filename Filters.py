@@ -22,11 +22,29 @@ def Apply_uniform_noise(img,noise_value):
   plt.imshow(un_img,cmap='gray')
   plt.axis("off")
 
-def salt_and_papper_noise(img,value):
-  # value must be from 0 to 255
-  imp_noise=np.zeros((340,510),dtype=np.uint8)
-  cv2.randu(imp_noise,0,255) #fill array with random distribution
-  imp_noise=cv2.threshold(imp_noise,value,255,cv2.THRESH_BINARY)[1]
-  in_img=cv2.add(img,imp_noise)
-  plt.imshow(in_img,cmap='gray')
-  plt.axis("off")                                                                    
+def Apply_salt_and_papper_noise(img,num_of_white_PX,num_of_black_PX):
+     # Getting the dimensions of the image
+    row , col = img.shape  
+    # Randomly pick some pixels in the image for coloring them white
+    number_of_pixels = random.randint(0, num_of_white_PX)
+    for i in range(number_of_pixels):
+        # Pick a random y coordinate
+        y_axis=random.randint(0, row - 1)
+        # Pick a random x coordinate
+        x_axis=random.randint(0, col - 1)
+          
+        # Color that pixel to white
+        img[y_axis][x_axis] = 255
+          
+    # Randomly pick some pixels in the image for coloring them black
+    number_of_pixels = random.randint(0 , num_of_black_PX)
+    for i in range(number_of_pixels):
+        # Pick a random y coordinate
+        y_axis=random.randint(0, row - 1)
+        # Pick a random x coordinate
+        x_axis=random.randint(0, col - 1)
+          
+        # Color that pixel to black
+        img[y_axis][x_axis] = 0
+    plt.imshow(img,cmap='gray')
+    plt.axis("off")                                                                   
