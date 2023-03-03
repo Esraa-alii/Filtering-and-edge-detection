@@ -113,6 +113,85 @@ def Apply_average_filter(img):
   plt.imshow(img_new, cmap="gray")
   plt.axis('off')
 
+def apply_convolution(img_grayscale, mask):
+    """a function that performs the convolution of the gaussian filter + the input image 
+    Args:
+        img_grayscale (array): the input image 
+        mask (array): the mask(kernel)
+    Returns:
+        filtered_img
+    """
+    row, col = img_grayscale.shape
+    masked_row, masked_col = mask.shape
+    new = np.zeros((row + masked_row - 1, col + masked_col - 1))
+    # setting the boundries of the image array
+    masked_col = masked_col//2
+    masked_row = masked_row//2
+    filtered_img = np.zeros(img_grayscale.shape)
+    new[masked_row:new.shape[0]-masked_row, masked_col:new.shape[1]-masked_col] = img_grayscale
+    # looping over the image row indices
+    for i in range(masked_row, new.shape[0]-masked_row):
+
+        # looping over the image coloumn indices
+        for j in range(masked_col, new.shape[1]-masked_col):
+            temp = new[i-masked_row:i+masked_row+1, j-masked_row:j+masked_row+1]
+            result = temp*mask
+            filtered_img[i-masked_row, j-masked_col] = result.sum()
+
+    return filtered_img
+
+def gaussian_kernal(width, height, sigma):
+    """_summary_
+    Args:
+        width : rows
+        height : columns
+        sigma: the standard deviation 
+    Returns:
+        gaussian: the filter array
+    """
+    # empty array
+    gaussian = np.zeros((width, height))
+    # setting the boundries of the filter
+    width = width//2
+    height = height//2
+    # looping over rows
+    for x in range(-width, width + 1):
+ 
+        # looping over rows
+        for y in range(-height, height + 1):
+            # applying the equation of gaussian
+            x1 = sigma*(2*np.pi)**2
+            x2 = np.exp(-(x**2+y**2)/(2*sigma**2))
+            gaussian[x+width, y+height] = (1/x1)*x2
+
+    return gaussian
+
+def Apply_gaussian_filter(image_path: str ,sigma):
+    """ function that calls the gaussian_filter and correlation functions and does some conversions
+    Args:
+        image_path (str): input image
+    Returns:
+        gaussian_filtered_img:
+    """
+    # creating an og_image object
+    og_image = Image.open(image_path)
+    gray_image = ImageOps.grayscale(og_image)
+
+    # Convert it to numpy array
+    img_grayscale = np.array(gray_image)
+
+    # kernal size 9x9
+    kernal = gaussian_kernal(9, 9, sigma)
+    after_convolution = apply_convolution(img_grayscale, kernal)
+
+    gaussian_filtered_img = after_convolution.astype(np.uint8)
+
+   
+    plt.imshow(gaussian_filtered_img,cmap='gray')    
+    plt.axis('off')               
+    # return gaussian_filtered_img
+
+# guassian filter
 
 # def gkernel(l=3, sig=2):
    
