@@ -44,21 +44,21 @@ def sobel_filter(image,mode):
     y_kernal = x_kernal.T # horizontal Sobel filter
     image_x = convolve2d(image,x_kernal) # applying the vertical filter to the image
     image_y = convolve2d(image,y_kernal) # applying the horizontal filter to the image
-    return paths(mode,"images/workspace/sobel-x.png",image_x,"images/workspace/sobel-y.png",image_y,"images/workspace/new-sobel.png")
+    return paths(mode,"sobel-x.png",image_x,"sobel-y.png",image_y,"new-sobel.png")
 
 def roberts_filter(image,mode):
     kernal_x = np.array([[1,0],[0,-1]]) # vertical roberts filter
     kernal_y = np.flip(kernal_x,0).T #horizontal roberts filter
     image_x = convolve2d(image,kernal_x) # applying the 1st filter to the image
     image_y = convolve2d(image,kernal_y) # applying the 2nd filter to the image
-    return paths(mode,"images/workspace/roberts-x.png",image_x,"images/workspace/roberts-y.png",image_y,"images/workspace/new-roberts.png")
+    return paths(mode,"roberts-x.png",image_x,"roberts-y.png",image_y,"new-roberts.png")
 
 def prewitt_filter(image,mode):
     kernal_x = np.array([[1,0,-1],[1,0,-1],[1,0,-1]]) # x-axis filter
     kernal_y = kernal_x.T # y-axis filter
     image_x = convolve2d(image,kernal_x) # applying the 1st filter to the image
     image_y = convolve2d(image,kernal_y) # applying the 2nd filter to the image
-    return paths(mode,"images/workspace/prewitt-x.png",image_x,"images/workspace/prewitt-y.png",image_y,"images/workspace/new-prewitt.png")
+    return paths(mode,"prewitt-x.png",image_x,"prewitt-y.png",image_y,"new-prewitt.png")
 
 # def canny_filter(image,mode):
 #     return
