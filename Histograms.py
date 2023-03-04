@@ -11,7 +11,7 @@ def apply_lowPass_filter(img,cut_off_freq):
   # lowPass_filter(rows_counter,columns_counter) = 1 if (D<=D0) , = 0 if  (D>D0)
   # D = ( (rows_counter - rows/2)^2 + ( columns_counter - columns/2)^2 )^(1/2)
   img_fft=fourier_transform(img)
-  rows,columns = img.shape
+  rows, columns = img.shape
   lowPass_filter = np.zeros((rows,columns), dtype=np.float32)
 #   cut_off_freq=10 #how much blured 10 -> more blur (can be in ui as imput or slider)
 
@@ -30,18 +30,20 @@ def apply_lowPass_filter(img,cut_off_freq):
   filtered_img = np.abs(np.fft.ifft2(filtered_img_freq_corner))
   plt.axis('off')
   plt.imshow(np.log1p(np.abs(filtered_img)),cmap='gray')
-  return filtered_img_freq,lowPass_filter
+  plt.savefig("lowpass_filtered.jpeg")
+  return filtered_img_freq,lowPass_filter,img_fft
   
 
 def apply_highpass_filter(img,cut_off_freq):
-  lowpassimg,lowpass = apply_lowPass_filter(img,cut_off_freq)
+  lowpassimg,lowpass,img_fft = apply_lowPass_filter(img,cut_off_freq)
   highpass_filter = 1 - lowpass
   filtered_img_freq = highpass_filter * img_fft
   filtered_img_freq_corner = np.fft.fftshift(filtered_img_freq)
   filtered_img = np.abs(np.fft.ifft2(filtered_img_freq_corner))
   plt.axis('off')
   plt.imshow(np.log1p(np.abs(filtered_img)),cmap='gray')
-  return filtered_img_freq
+  plt.savefig("highpass_filtered.jpeg")
+  # return filtered_img_freq
 
 
 
@@ -79,11 +81,11 @@ def make_gaussian(std=1, size=None):
     kernel = gaussian(r2=distance, std=std)
     return kernel / kernel.sum()
 
-def apply_hybrid_filter(img1,img2):
+def apply_hybrid_filter(img1,img2,cutoff_lpf,cutoff_hpf):
   img1_fft = fourier_transform(img1)
   img2_fft = fourier_transform(img2)
-  cutoff_lpf = 50
-  cutoff_hpf = 50
+  # cutoff_lpf = 50
+  # cutoff_hpf = 50
 
   lpf = make_gaussian(cutoff_lpf)
   hpf = lpf.max() - lpf
@@ -98,7 +100,6 @@ def apply_hybrid_filter(img1,img2):
                     img1.shape[0]//2-hpf.shape[0]//2 - 1),
                   (img1.shape[1]//2-hpf.shape[1]//2,
                     img1.shape[1]//2-hpf.shape[1]//2 - 1)], mode='constant', constant_values=lpf.max())
-
   img1_lpf = np.fft.ifft2(np.multiply(img1_fft, lpf))
   img2_hpf = np.fft.ifft2(np.multiply(img2_fft, hpf))
 
@@ -107,3 +108,5 @@ def apply_hybrid_filter(img1,img2):
   plt.axis('off')
 
   plt.imshow(np.abs(combined), cmap='gray')
+  plt.savefig("hybrid.png")
+

@@ -77,21 +77,21 @@ def median_filter(data, filter_size):
             temp = []
     return data_final
   
-img = Image.open("Unoise girl image.jpeg")
-arr = np.array(img)
-removed_noise = median_filter(arr, 5) 
-img1 = Image.fromarray(removed_noise)
+# img = Image.open("Unoise girl image.jpeg")
+# arr = np.array(img)
+# removed_noise = median_filter(arr, 5) 
+# img1 = Image.fromarray(removed_noise)
 
-plt.figure(figsize=(15,6))
-plt.subplot(121)
-plt.title("noised image")
-plt.imshow(img, vmin=0, vmax=255)
-plt.axis('off')
-plt.imshow(img, cmap="gray")
-plt.subplot(122)
-plt.title("Median Filtered")
-plt.imshow(img1, cmap="gray")
-plt.axis('off')
+# plt.figure(figsize=(15,6))
+# plt.subplot(121)
+# plt.title("noised image")
+# plt.imshow(img, vmin=0, vmax=255)
+# plt.axis('off')
+# plt.imshow(img, cmap="gray")
+# plt.subplot(122)
+# plt.title("Median Filtered")
+# plt.imshow(img1, cmap="gray")
+# plt.axis('off')
 
 # average filter
 def Apply_average_filter(img):
