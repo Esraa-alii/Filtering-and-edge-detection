@@ -27,15 +27,16 @@ def equalized_image(image):
 
 def paths(mode,path1,image1,path2,image2,path3):
     if mode == 0:
-        image = image1
         path = path1
+        plt.imshow(image1,cmap="gray")
     elif mode == 1:
-        image = image2
         path = path2
+        plt.imshow(image2,cmap="gray")
     else:
-        image = np.sqrt(image1**2,image2**2) # Combining the 1st and 2nd image (corresponding to x and y respectively) in one image 
+        image3 = np.sqrt(image1**2,image2**2) # Combining the 1st and 2nd image (corresponding to x and y respectively) in one image 
         path = path3
-    imsave(path,image)
+        plt.imshow(image3,cmap="gray")
+    plt.savefig(path)
     return path
 
 def sobel_filter(image,mode):
