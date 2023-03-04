@@ -5,6 +5,7 @@ import Histograms as freq_filters
 import matplotlib.pyplot as plt
 import cv2
 import os
+import NormEqua as NE 
 
 path='images'
 with open('style.css') as f:
@@ -18,7 +19,7 @@ with st.sidebar:
     st.title('Upload an image')
     uploaded_file = st.file_uploader("", accept_multiple_files=False, type=['jpg','png','jpeg'])
     
-    option = st.radio("Options",["Apply filter","Calculate histogram","Hybrid image"],horizontal=True)
+    option = st.radio("Options",["Apply filter","Calculate histogram","Hybrid image","Normalize","Equalize"],horizontal=True)
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
@@ -87,4 +88,29 @@ elif option == "Apply filter":
                 filtered_img_freq,lowPass_filter,img_fft=freq_filters.apply_lowPass_filter(image1,cut_off_freq)
                 st.image("lowpass_filtered.jpeg")
 
-       
+# ---------------------------- NORMALIZATION ---------------------------------
+elif option == "Normalize":
+    image1=cv2.imread(image_path1,0)
+    input_img, resulted_img = st.columns(2)
+    with input_img :
+        st.title("Input image")
+        image = Image.open(uploaded_file)
+        st.image(uploaded_file)
+    with resulted_img:
+        st.title("Output image")
+        plt.imshow(NE.normalize(image1),cmap='gray')
+        plt.savefig('normalized_photo.png')
+        st.image('normalized_photo.png')
+        
+# ----------------------------- EQUALIZATION -----------------------------------
+elif option == "Equalize" :
+    image1=cv2.imread(image_path1,0)
+    input_img, resulted_img = st.columns(2)
+    with input_img :
+        st.title("Input image")
+        image = Image.open(uploaded_file)
+        st.image(uploaded_file)
+    with resulted_img:
+        st.title("Output image")
+        NE.equalize(uploaded_file,'equalized_photo.png')
+        st.image('equalized_photo.png')
