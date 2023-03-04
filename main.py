@@ -114,3 +114,4 @@ elif option == "Equalize" :
         st.title("Output image")
         NE.equalize(uploaded_file,'equalized_photo.png')
         st.image('equalized_photo.png')
+#.
