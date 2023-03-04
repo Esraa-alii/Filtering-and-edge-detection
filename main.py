@@ -17,7 +17,7 @@ def show_output(file_path):
 col1, col2 = st.columns(2)
 with st.sidebar:
     st.title('Upload an image')
-    uploaded_file = st.file_uploader("", accept_multiple_files=False, type=['jpg','png','jpeg'])
+    uploaded_file = st.file_uploader("", accept_multiple_files=False, type=['jpg','png','jpeg','webp'])
     
     option = st.radio("Options",["Apply filter","Calculate histogram","Hybrid image","Normalize","Equalize"],horizontal=True)
 
@@ -98,6 +98,7 @@ elif option == "Normalize":
         st.image(uploaded_file)
     with resulted_img:
         st.title("Output image")
+        plt.axis('off')
         plt.imshow(NE.normalize(image1),cmap='gray')
         plt.savefig('normalized_photo.png')
         st.image('normalized_photo.png')
