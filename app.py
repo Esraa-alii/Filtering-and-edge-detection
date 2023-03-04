@@ -1,5 +1,4 @@
 import streamlit as st
-import matplotlib.pyplot as plt
 from skimage.io import imread
 import yehia as y
 
@@ -23,23 +22,21 @@ with st.sidebar:
     image_input = st.file_uploader("Input Image",type=["jpg","png","jpeg"])
 if image_input is not None:
     image = imread(image_input,True) # reading image in garyscale
-    rgb_image = imread(image_input) # reading the image in RGB to show it
     with col1:
         st.header("Input")
-        st.image(rgb_image) # showing the RGB image
+        st.image(image) # showing the grayscale image
     if tab is "2":
         with st.sidebar:
             modes = st.radio("Histogram",["Normal","Equalized"],horizontal=True)
         if modes is "Normal":
-            path_histogram = y.Histogram(image)
+            path_histogram = y.histogram(image)
             show_output(path_histogram)
-        # else:
-            # mean = np.mean(data)
-            # std = np.std(data)
-            # plt.plot(norm.pdf(data,mean,std))
-            # distribution_curve_path = "distribution_curve.png"
-            # plt.savefig(distribution_curve_path)
-            # show_output(distribution_curve_path)
+        if modes is "Equalized":
+            path_equalized = y.equalized_image(image)
+            show_output(path_equalized) # showing the equalized image
+            st.subheader("Equalized image histogram and distribution curve")
+            image_equal = imread(path_equalized)
+            st.image(y.histogram(image_equal)) # applying histogram function to get histogram and distribution curve
     elif tab is "1":
         with st.sidebar:
             edge_detect = st.radio("Techniques",["Sobel","Roberts","Prewitt","Canny edge"],horizontal=True)
