@@ -1,5 +1,6 @@
+import random
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import cv2
@@ -12,6 +13,7 @@ def apply_Gaussian_Noise(img,mean,sigma):
   gauss_noise_img=cv2.add(img,gauss_noise)
   plt.imshow(gauss_noise_img,cmap='gray')
   plt.axis("off")
+  plt.savefig("Gaussian_noise.jpeg")
 
 
 def Apply_uniform_noise(img,noise_value):
@@ -23,6 +25,7 @@ def Apply_uniform_noise(img,noise_value):
   un_img=cv2.add(img,uni_noise)
   plt.imshow(un_img,cmap='gray')
   plt.axis("off")
+  plt.savefig("Uniform_noise.jpeg")
 
 def Apply_salt_and_papper_noise(img,num_of_white_PX,num_of_black_PX):
      # Getting the dimensions of the image
@@ -50,6 +53,7 @@ def Apply_salt_and_papper_noise(img,num_of_white_PX,num_of_black_PX):
         img[y_axis][x_axis] = 0
     plt.imshow(img,cmap='gray')
     plt.axis("off")
+    plt.savefig("Salt & pepper_noise.jpeg")
     
     # median filter
 def median_filter(data, filter_size):
@@ -75,7 +79,14 @@ def median_filter(data, filter_size):
             temp.sort()
             data_final[i][j] = temp[len(temp) // 2]
             temp = []
+
+    data_final= data_final.astype(np.uint8)
+    plt.imshow(data_final, cmap="gray")
+    plt.axis('off')
+    plt.savefig("Median_filter.jpeg.jpeg")
+
     return data_final
+     
   
 # img = Image.open("Unoise girl image.jpeg")
 # arr = np.array(img)
@@ -94,24 +105,36 @@ def median_filter(data, filter_size):
 # plt.axis('off')
 
 # average filter
-def Apply_average_filter(img):
-  img_width, img_height = img.shape
+def apply_median_filter(img):
+# Obtain the number of rows and columns 
+# of the image
+    img_width, img_height = img.shape
+    
+    # Traverse the image. For every 3X3 area, 
+    # find the median of the pixels and
+    # replace the center pixel by the median
+    img_new1 = np.zeros([img_width, img_height])
+    
+    for i in range(1, img_width-1):
+        for j in range(1, img_height-1):
+            temp = [img[i-1, j-1],
+                img[i-1, j],
+                img[i-1, j + 1],
+                img[i, j-1],
+                img[i, j],
+                img[i, j + 1],
+                img[i + 1, j-1],
+                img[i + 1, j],
+                img[i + 1, j + 1]]
+            
+            temp = sorted(temp)
+            img_new1[i, j]= temp[4]
+    
+    img_new1 = img_new1.astype(np.uint8)
+    plt.imshow(img_new1, cmap="gray")
+    plt.axis('off')   
+    plt.savefig("Median_filter.jpeg") 
 
-  # Develop Averaging filter(3, 3) kernal
-  kernal = np.ones([3, 3], dtype = int)
-  kernal = kernal / 9
-
-  # Convolve the 3X3 mask over the image
-  img_new = np.zeros([img_width, img_height])
-
-  for i in range(1, img_width-1):
-    for j in range(1, img_height-1):
-      temp = img[i-1, j-1]*kernal[0, 0]+img[i-1, j]*kernal[0, 1]+img[i-1, j + 1]*kernal[0, 2]+img[i, j-1]*kernal[1, 0]+ img[i, j]*kernal[1, 1]+img[i, j + 1]*kernal[1, 2]+img[i + 1, j-1]*kernal[2, 0]+img[i + 1, j]*kernal[2, 1]+img[i + 1, j + 1]*kernal[2, 2]
-      img_new[i, j]= temp
-      
-  img_new = img_new.astype(np.uint8)
-  plt.imshow(img_new, cmap="gray")
-  plt.axis('off')
 
 def apply_convolution(img_grayscale, mask):
     """a function that performs the convolution of the gaussian filter + the input image 
@@ -188,7 +211,8 @@ def Apply_gaussian_filter(image_path: str ,sigma):
 
    
     plt.imshow(gaussian_filtered_img,cmap='gray')    
-    plt.axis('off')               
+    plt.axis('off') 
+    plt.savefig("Gaussian_filter.jpeg")              
     # return gaussian_filtered_img
 
 # guassian filter

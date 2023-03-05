@@ -7,6 +7,14 @@ import cv2
 import os
 import NormEqua as NE 
 
+# vars
+num_of_white_PX=0
+num_of_black_PX=0
+denoise_option=0
+filters_option=0
+filter_size=0
+kernal_length=0
+
 path='images'
 with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
@@ -18,8 +26,8 @@ col1, col2 = st.columns(2)
 with st.sidebar:
     st.title('Upload an image')
     uploaded_file = st.file_uploader("", accept_multiple_files=False, type=['jpg','png','jpeg','webp'])
-    
-    option = st.radio("Options",["Apply filter","Calculate histogram","Hybrid image","Normalize","Equalize"],horizontal=True)
+    st.title("Options")
+    option = st.selectbox("",["Apply filter","Apply noise", "Calculate histogram","Hybrid image","Normalize","Equalize"])
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
@@ -62,8 +70,14 @@ if option == "Hybrid image":
 elif option == "Apply filter":
     if uploaded_file is not None:
         with st.sidebar:
-            st.subheader("Frequency filter")
-            filters_option = st.selectbox('Choose a filter',('Highpass Filter', 'Lowpass Filter'))
+            # st.subheader("Filter type")
+            Filter_type = st.radio("Filter type",["Frequency filters","Denoising filters"],horizontal=True)
+            if Filter_type =='Frequency filters':
+                # st.subheader("Frequency filter")
+                filters_option = st.selectbox('Choose a filter',('Highpass Filter', 'Lowpass Filter'))
+            elif Filter_type =='Denoising filters':
+            # st.subheader("Denoise filter")
+                denoise_option = st.selectbox('Choose a filter',('Gaussian', 'Median', 'Average'))
             # imagee = uploaded_file.read()
             # image_path2=os.path.join(path,sec_uploaded_file.name)
 
@@ -73,6 +87,19 @@ elif option == "Apply filter":
                 cut_off_freq = st.number_input('Cuttoff Frequency', min_value=1, value=10, step=5)
             elif filters_option == 'Lowpass Filter':
                 cut_off_freq = st.number_input('Cuttoff Frequency', min_value=1, value=10, step=5)
+            # denoising filters
+            if denoise_option == 'Gaussian':
+                with st.sidebar:
+                    sigma = st.number_input('Sigma', min_value=1, value=20, step=2)
+            # elif denoise_option == 'Medin':
+            #         with st.sidebar:
+            #             filter_size = st.number_input('filter size', min_value=0, value=10, step=5)
+            elif denoise_option == 'Average' :      
+                    with st.sidebar:
+                        kernal_length = st.selectbox('Choose kernal length',('3x3', '5x5'))
+
+                        # kernal= st.number_input('min_value=1, value=10, step=5)
+                       
 
         input_img, resulted_img = st.columns(2)
         with input_img :
@@ -87,6 +114,25 @@ elif option == "Apply filter":
             elif filters_option == 'Lowpass Filter':
                 filtered_img_freq,lowPass_filter,img_fft=freq_filters.apply_lowPass_filter(image1,cut_off_freq)
                 st.image("lowpass_filtered.jpeg")
+            if denoise_option == 'Gaussian':
+                filters.Apply_gaussian_filter(image_path1,sigma)
+                st.image("Gaussian_filter.jpeg")
+        
+            elif denoise_option == 'Median':
+                filters.apply_median_filter(image1)
+                st.image("Median_filter.jpeg")
+
+            elif denoise_option == 'Average':
+                if kernal_length == '3x3':
+                    filters.Apply_average_filter(image1,3)
+                if kernal_length == '5x5':
+                    filters.Apply_average_filter(image1,5)
+                st.image("Average_filter.jpeg")
+
+
+
+
+
 
 # ---------------------------- NORMALIZATION ---------------------------------
 elif option == "Normalize":
@@ -115,4 +161,46 @@ elif option == "Equalize" :
         st.title("Output image")
         NE.equalize(uploaded_file,'equalized_photo.png')
         st.image('equalized_photo.png')
-#.
+
+# ----------------------------NOISE-------------------------------------------
+elif option == "Apply noise":
+    with st.sidebar:
+        noise_option = st.selectbox('Choose a noise',('Gaussian', 'Uniform', 'Salt & pepper'))
+
+    if noise_option == 'Gaussian':
+            with st.sidebar:
+                mean = st.number_input('Mean', min_value=20, value=100, step=5)
+                sigma = st.number_input('Sigma', min_value=1, value=20, step=2)
+    elif noise_option == 'Uniform':
+            with st.sidebar:
+                noise_value = st.number_input('Noise value', min_value=20, value=100, step=5)
+    elif noise_option == 'Salt & pepper' :      
+            with st.sidebar:
+                num_of_white_PX = st.number_input('Num of white px', min_value=1, value=10, step=5)
+                num_of_black_PX = st.number_input('Num of black px', min_value=1, value=10, step=5)
+    input_img, resulted_img = st.columns(2)
+    with input_img :
+        st.title("Input image")
+        image = Image.open(uploaded_file)
+        st.image(uploaded_file)
+
+    with resulted_img:
+        st.title("Output image")
+        image1=cv2.imread(image_path1,0)  
+    if noise_option == 'Gaussian':
+      
+        filters.apply_Gaussian_Noise(image1,mean,sigma)
+        st.image("Gaussian_noise.jpeg")
+    
+    elif noise_option == 'Uniform':
+        filters.Apply_uniform_noise(image1,noise_value)
+        st.image("Uniform_noise.jpeg")
+
+    elif noise_option == 'Salt & pepper':
+        filters.Apply_salt_and_papper_noise(image1,num_of_white_PX,num_of_black_PX)
+        st.image("Salt & pepper_noise.jpeg")
+
+
+    # ----------------------------FILTERS-------------------------------------------
+
+        
