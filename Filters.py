@@ -13,7 +13,7 @@ def apply_Gaussian_Noise(img,mean,sigma):
   gauss_noise_img=cv2.add(img,gauss_noise)
   plt.imshow(gauss_noise_img,cmap='gray')
   plt.axis("off")
-  plt.savefig("Gaussian_noise.jpeg")
+  plt.savefig("images/output/Gaussian_noise.jpeg")
 
 
 def Apply_uniform_noise(img,noise_value):
@@ -25,7 +25,7 @@ def Apply_uniform_noise(img,noise_value):
   un_img=cv2.add(img,uni_noise)
   plt.imshow(un_img,cmap='gray')
   plt.axis("off")
-  plt.savefig("Uniform_noise.jpeg")
+  plt.savefig("images/output/Uniform_noise.jpeg")
 
 def Apply_salt_and_papper_noise(img,num_of_white_PX,num_of_black_PX):
      # Getting the dimensions of the image
@@ -53,7 +53,7 @@ def Apply_salt_and_papper_noise(img,num_of_white_PX,num_of_black_PX):
         img[y_axis][x_axis] = 0
     plt.imshow(img,cmap='gray')
     plt.axis("off")
-    plt.savefig("Salt & pepper_noise.jpeg")
+    plt.savefig("images/output/Salt & pepper_noise.jpeg")
     
     # median filter
 def median_filter(data, filter_size):
@@ -83,7 +83,7 @@ def median_filter(data, filter_size):
     data_final= data_final.astype(np.uint8)
     plt.imshow(data_final, cmap="gray")
     plt.axis('off')
-    plt.savefig("Median_filter.jpeg.jpeg")
+    plt.savefig("images/output/Median_filter.jpeg.jpeg")
 
     return data_final
      
@@ -133,7 +133,7 @@ def apply_median_filter(img):
     img_new1 = img_new1.astype(np.uint8)
     plt.imshow(img_new1, cmap="gray")
     plt.axis('off')   
-    plt.savefig("Median_filter.jpeg") 
+    plt.savefig("images/output/Median_filter.jpeg") 
 
 
 def apply_convolution(img_grayscale, mask):
@@ -212,7 +212,7 @@ def Apply_gaussian_filter(image_path: str ,sigma):
    
     plt.imshow(gaussian_filtered_img,cmap='gray')    
     plt.axis('off') 
-    plt.savefig("Gaussian_filter.jpeg")              
+    plt.savefig("images/output/Gaussian_filter.jpeg")              
     # return gaussian_filtered_img
 
 # guassian filter

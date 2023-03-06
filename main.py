@@ -63,7 +63,7 @@ if option == "Hybrid image":
             image_path2=os.path.join(path,sec_uploaded_file.name)
             sec_uploaded_file=cv2.imread(image_path2,0)
             freq_filters.apply_hybrid_filter(uploaded_file,sec_uploaded_file,cutoff_lpf,cutoff_hpf)
-            st.image("hybrid.png")
+            st.image("images/output/hybrid.png")
 
 
 # Apply filter case 
@@ -110,24 +110,24 @@ elif option == "Apply filter":
             st.title("Output image")
             if filters_option == 'Highpass Filter':
                 freq_filters.apply_highpass_filter(image1,cut_off_freq)
-                st.image("highpass_filtered.jpeg")
+                st.image("images/output/highpass_filtered.jpeg")
             elif filters_option == 'Lowpass Filter':
                 filtered_img_freq,lowPass_filter,img_fft=freq_filters.apply_lowPass_filter(image1,cut_off_freq)
-                st.image("lowpass_filtered.jpeg")
+                st.image("images/output/lowpass_filtered.jpeg")
             if denoise_option == 'Gaussian':
                 filters.Apply_gaussian_filter(image_path1,sigma)
-                st.image("Gaussian_filter.jpeg")
+                st.image("images/output/Gaussian_filter.jpeg")
         
             elif denoise_option == 'Median':
                 filters.apply_median_filter(image1)
-                st.image("Median_filter.jpeg")
+                st.image("images/output/Median_filter.jpeg")
 
             elif denoise_option == 'Average':
                 if kernal_length == '3x3':
                     filters.Apply_average_filter(image1,3)
                 if kernal_length == '5x5':
                     filters.Apply_average_filter(image1,5)
-                st.image("Average_filter.jpeg")
+                st.image("images/output/Average_filter.jpeg")
 
 
 
@@ -146,8 +146,8 @@ elif option == "Normalize":
         st.title("Output image")
         plt.axis('off')
         plt.imshow(NE.normalize(image1),cmap='gray')
-        plt.savefig('normalized_photo.png')
-        st.image('normalized_photo.png')
+        plt.savefig('images/output/normalized_photo.png')
+        st.image('images/output/normalized_photo.png')
         
 # ----------------------------- EQUALIZATION -----------------------------------
 elif option == "Equalize" :
@@ -159,8 +159,8 @@ elif option == "Equalize" :
         st.image(uploaded_file)
     with resulted_img:
         st.title("Output image")
-        NE.equalize(uploaded_file,'equalized_photo.png')
-        st.image('equalized_photo.png')
+        NE.equalize(uploaded_file,'images/output/equalized_photo.png')
+        st.image('images/output/equalized_photo.png')
 
 # ----------------------------NOISE-------------------------------------------
 elif option == "Apply noise":
@@ -190,15 +190,15 @@ elif option == "Apply noise":
     if noise_option == 'Gaussian':
       
         filters.apply_Gaussian_Noise(image1,mean,sigma)
-        st.image("Gaussian_noise.jpeg")
+        st.image("images/output/Gaussian_noise.jpeg")
     
     elif noise_option == 'Uniform':
         filters.Apply_uniform_noise(image1,noise_value)
-        st.image("Uniform_noise.jpeg")
+        st.image("images/output/Uniform_noise.jpeg")
 
     elif noise_option == 'Salt & pepper':
         filters.Apply_salt_and_papper_noise(image1,num_of_white_PX,num_of_black_PX)
-        st.image("Salt & pepper_noise.jpeg")
+        st.image("images/output/Salt & pepper_noise.jpeg")
 
 
     # ----------------------------FILTERS-------------------------------------------

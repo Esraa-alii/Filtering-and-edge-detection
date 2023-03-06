@@ -30,7 +30,7 @@ def apply_lowPass_filter(img,cut_off_freq):
   filtered_img = np.abs(np.fft.ifft2(filtered_img_freq_corner))
   plt.axis('off')
   plt.imshow(np.log1p(np.abs(filtered_img)),cmap='gray')
-  plt.savefig("lowpass_filtered.jpeg")
+  plt.savefig("images/output/lowpass_filtered.jpeg")
   return filtered_img_freq,lowPass_filter,img_fft
   
 
@@ -42,7 +42,7 @@ def apply_highpass_filter(img,cut_off_freq):
   filtered_img = np.abs(np.fft.ifft2(filtered_img_freq_corner))
   plt.axis('off')
   plt.imshow(np.log1p(np.abs(filtered_img)),cmap='gray')
-  plt.savefig("highpass_filtered.jpeg")
+  plt.savefig("images/output/highpass_filtered.jpeg")
   # return filtered_img_freq
 
 
@@ -108,5 +108,5 @@ def apply_hybrid_filter(img1,img2,cutoff_lpf,cutoff_hpf):
   plt.axis('off')
 
   plt.imshow(np.abs(combined), cmap='gray')
-  plt.savefig("hybrid.png")
+  plt.savefig("images/output/hybrid.png")
 
