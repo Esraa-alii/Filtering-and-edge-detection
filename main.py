@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import cv2
 import os
 import NormEqua as NE 
+import Edge_detection as edge_detection
 
 # vars
 num_of_white_PX=0
@@ -16,6 +17,7 @@ filter_size=0
 kernal_length=0
 
 path='images'
+st.set_page_config(page_title="Image Processing",layout="wide")
 with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
@@ -27,7 +29,7 @@ with st.sidebar:
     st.title('Upload an image')
     uploaded_file = st.file_uploader("", accept_multiple_files=False, type=['jpg','png','jpeg','webp'])
     st.title("Options")
-    option = st.selectbox("",["Apply filter","Apply noise", "Calculate histogram","Hybrid image","Normalize","Equalize"])
+    option = st.selectbox("",["Apply filter","Apply noise","Edge detection", "Calculate histogram","Hybrid image","Normalize","Equalize"])
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
@@ -202,5 +204,33 @@ elif option == "Apply noise":
 
 
     # ----------------------------FILTERS-------------------------------------------
+elif option == "Edge detection":
+    input_img, resulted_img = st.columns(2)
 
-        
+    with st.sidebar:
+        edge_detect_options = st.selectbox('Choose detector',('Canny detector','Sobel detector','Prewitt detector'))
+    if edge_detect_options == 'Canny detector':
+        with st.sidebar:
+            canny_kernal = st.selectbox('Select kernal size',('3x3','5x5'))
+            canny_sigma = st.number_input('Sigma', min_value=1, value=10, step=2)
+
+        with input_img :
+            st.title("Input image")
+            image = Image.open(uploaded_file)
+            st.image(uploaded_file)
+
+        with resulted_img:
+            st.title("Output image")
+            image1=cv2.imread(image_path1,0)  
+            if canny_kernal == '3x3':
+                edge_detection.canny_detector(image1, 3, canny_sigma)
+                st.image("images/output/canny_detection.jpeg")
+            elif canny_kernal == '5x5':
+                edge_detection.canny_detector(image1, 5, canny_sigma)
+                st.image("images/output/canny_detection.jpeg")
+            # elif canny_kernal == '9x9':
+            #     edge_detection.canny_detector(image1, 9, canny_sigma)
+            #     st.image("images/output/canny_detection.jpeg")
+
+
+

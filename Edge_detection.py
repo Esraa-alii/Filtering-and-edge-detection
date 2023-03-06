@@ -130,8 +130,8 @@ def sobel_kernels(image: np.ndarray):
     Kx = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], np.float32)
     Ky = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]], np.float32)
 
-    Ix = correlation(img_grayscale, Kx)
-    Iy = correlation(img_grayscale, Ky)
+    Ix = filters.apply_convolution(img_grayscale, Kx)
+    Iy = filters.apply_convolution(img_grayscale, Ky)
 
     magnitude_matrix = np.hypot(Ix, Iy)
     magnitude_matrix = magnitude_matrix / magnitude_matrix.max() * 255
