@@ -56,36 +56,58 @@ def Apply_salt_and_papper_noise(img,num_of_white_PX,num_of_black_PX):
     plt.savefig("images/output/Salt & pepper_noise.jpeg")
     
     # median filter
-def median_filter(data, filter_size):
-    temp = []
-    indexer = filter_size // 2
-    data_final = []
-    data_final = np.zeros((len(data),len(data[0])))
-    for i in range(len(data)):
 
-        for j in range(len(data[0])):
 
-            for z in range(filter_size):
-                if i + z - indexer < 0 or i + z - indexer > len(data) - 1:
-                    for c in range(filter_size):
-                        temp.append(0)
-                else:
-                    if j + z - indexer < 0 or j + indexer > len(data[0]) - 1:
-                        temp.append(0)
-                    else:
-                        for k in range(filter_size):
-                            temp.append(data[i + z - indexer][j + k - indexer])
+def apply_average_filter(img,kernal_size):
+  image_width, image_height = img.shape
 
-            temp.sort()
-            data_final[i][j] = temp[len(temp) // 2]
-            temp = []
+  # Develop Averaging filter(3, 3) mask
+  mask = np.ones([kernal_size, kernal_size], dtype = int)
+  mask = mask / (kernal_size*kernal_size)
 
-    data_final= data_final.astype(np.uint8)
-    plt.imshow(data_final, cmap="gray")
-    plt.axis('off')
-    plt.savefig("images/output/Median_filter.jpeg.jpeg")
+  # Convolve the 3X3 mask over the image
+  img_new = np.zeros([image_width, image_height])
 
-    return data_final
+  for i in range(1, image_width-1):
+    for j in range(1, image_height-1):
+      temp = img[i-1, j-1]*mask[0, 0]+img[i-1, j]*mask[0, 1]+img[i-1, j + 1]*mask[0, 2]+img[i, j-1]*mask[1, 0]+ img[i, j]*mask[1, 1]+img[i, j + 1]*mask[1, 2]+img[i + 1, j-1]*mask[2, 0]+img[i + 1, j]*mask[2, 1]+img[i + 1, j + 1]*mask[2, 2]
+      
+      img_new[i, j]= temp
+      
+  img_new = img_new.astype(np.uint8)
+  plt.axis('off')
+  plt.imshow(img_new, cmap="gray")
+  plt.savefig("images/output/average_filter.jpeg")
+# def median_filter(data, filter_size):
+#     temp = []
+#     indexer = filter_size // 2
+#     data_final = []
+#     data_final = np.zeros((len(data),len(data[0])))
+#     for i in range(len(data)):
+
+#         for j in range(len(data[0])):
+
+#             for z in range(filter_size):
+#                 if i + z - indexer < 0 or i + z - indexer > len(data) - 1:
+#                     for c in range(filter_size):
+#                         temp.append(0)
+#                 else:
+#                     if j + z - indexer < 0 or j + indexer > len(data[0]) - 1:
+#                         temp.append(0)
+#                     else:
+#                         for k in range(filter_size):
+#                             temp.append(data[i + z - indexer][j + k - indexer])
+
+#             temp.sort()
+#             data_final[i][j] = temp[len(temp) // 2]
+#             temp = []
+
+#     data_final= data_final.astype(np.uint8)
+#     plt.imshow(data_final, cmap="gray")
+#     plt.axis('off')
+#     plt.savefig("images/output/Median_filter.jpeg")
+
+#     return data_final
      
   
 # img = Image.open("Unoise girl image.jpeg")

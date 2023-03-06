@@ -124,10 +124,10 @@ elif option == "Apply filter":
 
             elif denoise_option == 'Average':
                 if kernal_length == '3x3':
-                    filters.Apply_average_filter(image1,3)
+                    filters.apply_average_filter(image1,3)
                 if kernal_length == '5x5':
-                    filters.Apply_average_filter(image1,5)
-                st.image("images/output/Average_filter.jpeg")
+                    filters.apply_average_filter(image1,5)
+                st.image("images/output/average_filter.jpeg")
 
 
 
