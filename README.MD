@@ -33,7 +33,7 @@ To start deployment
 
 > ## 🖌️ Design
 
-![main widow](./images/Demo/main.png)
+![main widow](./Demo/main.png)
 <!-- * **side bar** -->
 
 <!-- <img  src="./images/images/newSideBar.png"  alt="DSP - sidebar1"  height="400"  /> -->
@@ -45,38 +45,38 @@ To start deployment
 
 1. Apply Highpass filter
 
-![main widow](./images/Demo/highpass.gif)
+![main widow](./Demo/highpass.gif)
 
 2. Apply Lowpass filter
 
-![main widow](./images/Demo/lowpass.gif)
+![main widow](./Demo/lowpass.gif)
 
 #### B. Denoising filters
 1. Apply Gaussian filter
 
-![main widow](./images/Demo/gaussFilter.gif)
+![main widow](./Demo/gaussFilter.gif)
 
 2. Apply Median filter
 
-![main widow](./images/Demo/medianFilter.gif)
+![main widow](./Demo/medianFilter.gif)
 
 3. Apply Average filter 
 
-![main widow](./images/Demo/averageFilter.gif)
+![main widow](./Demo/averageFilter.gif)
 
 ###  Apply Noise
 1. Gaussian noise
-![main widow](./images/Demo/gaussNoise.gif)
+![main widow](./Demo/gaussNoise.gif)
 
 2. Uniform noise
-![main widow](./images/Demo/uniform.gif)
+![main widow](./Demo/uniform.gif)
 
 3. Salt and pepper noise
-![main widow](./images/Demo/s%26p.gif)
+![main widow](./Demo/s%26p.gif)
 
 ###  Edge detection
 1. Canny detector
-![main widow](./images/Demo/canny.gif)
+![main widow](./Demo/canny.gif)
 
 2. Sobel detector
 
@@ -90,13 +90,13 @@ To start deployment
 2. Equalize Histogram
 
 ###  Equalize the image 
-![main widow](./images/Demo/Equalize.gif)
+![main widow](./Demo/Equalize.gif)
 
 ###  Normalize the image 
-![main widow](./images/Demo/normalize.gif)
+![main widow](./Demo/normalize.gif)
 
 ###  Hybrid image
-![main widow](./images/Demo/hybrid.gif)
+![main widow](./Demo/hybrid.gif)
 
 
 > ## 🔗 Authors
