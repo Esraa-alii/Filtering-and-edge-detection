@@ -224,7 +224,7 @@ elif option == "Edge detection":
     input_img, resulted_img = st.columns(2)
 
     with st.sidebar:
-        edge_detect_options = st.selectbox('Choose detector',('Canny detector','Sobel detector','Prewitt detector'))
+        edge_detect_options = st.selectbox('Choose detector',('Canny','Sobel','Prewitt','Roberts'))
     if edge_detect_options == 'Canny detector':
         with st.sidebar:
             canny_kernal = st.selectbox('Select kernal size',('3x3','5x5'))
