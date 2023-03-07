@@ -149,8 +149,8 @@ def canny_detector(image: np.ndarray,kernal_size,sigma):
 
     img_grayscale = np.copy(image)
 
-    # Noise reduction; by applying Gaussian blur to smooth it, where -> kernal 5x5, sigma = 1
-    gaussian_mask = filters.gaussian_kernal(5, 5, 1)
+    # Noise reduction; by applying Gaussian blur to smooth it
+    gaussian_mask = filters.gaussian_kernal(kernal_size, kernal_size, sigma)
     masked_matrix = filters.apply_convolution(img_grayscale, gaussian_mask)
 
     # Gradient Calculation; by using Sobel kernels
