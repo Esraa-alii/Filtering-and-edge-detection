@@ -262,7 +262,7 @@ elif option == "Edge detection":
     # ----------------------------Histogram-------------------------------------------
 elif option == "Calculate histogram":
     with st.sidebar:
-        modes = st.selectbox("Histogram",("Nromal","Equalized"))
+        modes = st.selectbox("Histogram",("Normal","Equalized"))
     if modes is "Normal":
         path_histogram = y.histogram(image)
         show_output(path_histogram)
