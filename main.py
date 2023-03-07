@@ -48,6 +48,7 @@ if option == "Hybrid image":
         sec_uploaded_file = st.file_uploader("", accept_multiple_files=False, type=['png','jpeg'])
         cutoff_lpf = st.number_input('Cuttoff lpf', min_value=1, value=10, step=5)
         cutoff_hpf = st.number_input('Cuttoff hpf', min_value=1, value=10, step=5)
+        swap_flag = st.checkbox('Swap images')
         # image_path2=os.path.join(path,sec_uploaded_file.name)
     input_img, resulted_img = st.columns(2)
     with input_img :
@@ -64,8 +65,13 @@ if option == "Hybrid image":
         if sec_uploaded_file is not None:
             image_path2=os.path.join(path,sec_uploaded_file.name)
             sec_uploaded_file=cv2.imread(image_path2,0)
+            if swap_flag:
+                temp=uploaded_file
+                uploaded_file=sec_uploaded_file
+                sec_uploaded_file=temp
             freq_filters.apply_hybrid_filter(uploaded_file,sec_uploaded_file,cutoff_lpf,cutoff_hpf)
             st.image("images/output/hybrid.png")
+            
 
 
 # Apply filter case 
@@ -203,7 +209,7 @@ elif option == "Apply noise":
         st.image("images/output/Salt & pepper_noise.jpeg")
 
 
-    # ----------------------------FILTERS-------------------------------------------
+    # ----------------------------Edge detection-------------------------------------------
 elif option == "Edge detection":
     input_img, resulted_img = st.columns(2)
 
