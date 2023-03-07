@@ -7,6 +7,7 @@ import cv2
 import os
 import NormEqua as NE 
 import Edge_detection as edge_detection
+import yehia as y
 
 # vars
 num_of_white_PX=0
@@ -20,6 +21,15 @@ path='images'
 st.set_page_config(page_title="Image Processing",layout="wide")
 with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+def modes(varaible):
+    if varaible == "Vertical":
+        mode = 0
+    elif varaible is "Horizontal":
+        mode = 1
+    else:
+        mode = 2
+    return mode
 
 def show_output(file_path):
     st.image(file_path)
@@ -238,5 +248,27 @@ elif option == "Edge detection":
             #     edge_detection.canny_detector(image1, 9, canny_sigma)
             #     st.image("images/output/canny_detection.jpeg")
 
+    with st.sidebar:
+        if edge_detect_options == "Sobel":
+            sobel = st.selectbox("Sobel",("Vertical","Horizontal","Both"))
+            show_output(y.sobel_filter(image,modes(sobel)))
+        if edge_detect_options == "Prewitt":
+            prewitt = st.selectbox("Prewitt",("Vertical","Horizontal","Both"))
+            show_output(y.prewitt_filter(image,modes(prewitt)))
+        if edge_detect_options == "Roberts":
+            roberts = st.selectbox("Roberts",("Vertical","Horizontal","Both"))
+            show_output(y.roberts_filter(image,modes(roberts)))
 
-
+    # ----------------------------Histogram-------------------------------------------
+elif option == "Calculate histogram":
+    with st.sidebar:
+        modes = st.selectbox("Histogram",("Nromal","Equalized"))
+    if modes is "Normal":
+        path_histogram = y.histogram(image)
+        show_output(path_histogram)
+    if modes is "Equalized":
+        path_equalized = y.equalized_image(image)
+        show_output(path_equalized) # showing the equalized image
+        st.subheader("Equalized image histogram and distribution curve")
+        image_equal = plt.imread(path_equalized)
+        st.image(y.histogram(image_equal)) # applying histogram function to get histogram and distribution curve

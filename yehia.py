@@ -101,6 +101,3 @@ def prewitt_filter(image,mode):
     image_x = convolve2d(image,kernal_x) # applying the 1st filter to the image
     image_y = convolve2d(image,kernal_y) # applying the 2nd filter to the image
     return paths(mode,"prewitt-x.png",image_x,"prewitt-y.png",image_y,"new-prewitt.png")
-
-# def canny_filter(image,mode):
-#     return
