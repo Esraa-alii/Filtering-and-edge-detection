@@ -62,7 +62,7 @@ To start deployment
 
 3. Apply Average filter 
 
-![main widow](./Demo/averageFilter.gif)
+![main widow](/Demo/averageFilter.gif)
 
 ###  Apply Noise
 1. Gaussian noise
