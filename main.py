@@ -8,7 +8,6 @@ import cv2
 import os
 import NormEqua as NE 
 import Edge_detection as edge_detection
-import histogram as histor
 import RGBHistogram as rhis
 import Thresholding as thresh
 
@@ -252,6 +251,7 @@ elif option == "Calculate histogram":
             image = Image.open(uploaded_file)
             st.image(image2)
         with resulted_img:
+            st.title("Histogram")
             if modes == "Normal":
                 path_histogram, path_dis = edge_detection.histogram(image2)
                 st.image(path_histogram)
@@ -278,7 +278,9 @@ elif option == "RGB Histogram":
             image = Image.open(uploaded_file)
             st.image(uploaded_file)
         with resulted_img:
+            
             if modes == "Normal":
+                st.title("RGB Histogram")
                 if image3.ndim == 3:
                     path_histogram_rgb, path_dis_rgb = rhis.rgb_histogram(image3)
                     st.image(path_histogram_rgb)
@@ -318,9 +320,9 @@ elif option == "Thresholding":
                     threshold_2 = st.slider(label="Threshold Value 2", min_value=0, max_value=255, step=1)
                     threshold_3 = st.slider(label="Threshold Value 3", min_value=0, max_value=255, step=1)
                     threshold_4 = st.slider(label="Threshold Value 4", min_value=0, max_value=255, step=1)
-                elif threshold_type == "Global":
-                    if thresh_mode == 0:
-                        threshold =st.slider(label="Threshold Value", min_value=0, max_value=255, step=1)
+            elif threshold_type == "Global":
+                if thresh_mode == 0:
+                    threshold =st.slider(label="Threshold Value", min_value=0, max_value=255, step=1)
                 
         input_img, resulted_img = st.columns(2)
         with input_img:

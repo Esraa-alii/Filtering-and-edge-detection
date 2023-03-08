@@ -79,15 +79,25 @@ To start deployment
 ![main widow](./Demo/canny.gif)
 
 2. Sobel detector
+  - horizontal OR vertival
+  ![main widow](./Demo/sobel.gif)
+
+  - BOTH horizontal and vertical
+  ![main widow](./Demo/sobelBoth.gif)
 
 3. Prewitt detector
+  - horizontal OR vertival
+  ![main widow](./Demo/prewitt.gif)
+
+  - BOTH horizontal and vertical
+  ![main widow](./Demo/prewittBoth.gif)
 
 4. Roberts detector
+ - horizontal OR vertival
+  ![main widow](./Demo/robert.gif)
 
-###  Histogram
-1. Normal Histogram 
-
-2. Equalize Histogram
+  - BOTH horizontal and vertical
+  ![main widow](./Demo/robertBoth.gif)
 
 ###  Equalize the image 
 ![main widow](./Demo/Equalize.gif)
@@ -95,9 +105,39 @@ To start deployment
 ###  Normalize the image 
 ![main widow](./Demo/normalize.gif)
 
+###  Histogram
+1. Normal Histogram 
+![main widow](./Demo/normal.gif)
+
+
+2. Equalize Histogram
+![main widow](./Demo/eqhisto.gif)
+
+###  RGB Histogram
+
+1. Normal RGB Histogram 
+![main widow](./Demo/normalRGB.gif)
+
+2. Equalize RGB Histogram
+![main widow](./Demo/EQURGB.gif)
+
+###  Thresholding
+#### A. Manual Thresholding
+1. Local 
+![main widow](./Demo/mlocal.gif)
+
+2. Global
+![main widow](./Demo/mglobal.gif)
+
+
+#### A. Ostu's Thresholding
+1. Local 
+![main widow](./Demo/olocal.gif)
+2. Global
+![main widow](./Demo/oglobal.gif)
+
 ###  Hybrid image
 ![main widow](./Demo/hybrid.gif)
-
 
 > ## 🔗 Authors
 - Esraa Ali         
