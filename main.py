@@ -48,6 +48,8 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     plt.imread(uploaded_file)
     image_path1=os.path.join(path,uploaded_file.name)
+    image2 = imread(uploaded_file, True)
+    image3 = imread(uploaded_file)
     # print(image_path)
     # plt.savefig('i1.jpeg')
     # st.image(uploaded_file)
@@ -288,7 +290,7 @@ elif option == "Edge detection":
     # ----------------------------Histogram-------------------------------------------
 elif option == "Calculate histogram":
     if uploaded_file is not None:
-        image1=cv2.imread(image_path1, 0)
+        # image1=cv2.imread(image_path1, 0)
         with st.sidebar:
             modes = st.selectbox("Histogram",("Normal","Equalized"))
 
@@ -296,22 +298,25 @@ elif option == "Calculate histogram":
         with input_img:
             st.title("Input image")
             image = Image.open(uploaded_file)
-            st.image(image1)
+            st.image(image2)
         with resulted_img:
             if modes == "Normal":
-                path_histogram = y.histogram(image1)
+                path_histogram, path_dis = y.histogram(image2)
                 st.image(path_histogram)
+                st.image(path_dis)
             if modes == "Equalized":
-                path_equalized = y.equalized_image(image1)
+                path_equalized = y.equalized_image(image2)
                 st.image(path_equalized) # showing the equalized image
-                st.subheader("Equalized image histogram and distribution curve")
-                image_equal = plt.imread(path_equalized)
-                st.image(y.histogram(image_equal)) # applying histogram function to get histogram and distribution curve
+                # st.subheader("Equalized image histogram and distribution curve")
+                image_equal = imread(path_equalized, True)
+                path_equ_hist, path_equ_dist = y.histogram(image_equal)
+                st.image(path_equ_hist) # applying histogram function to get histogram and distribution curve
+                st.image(path_equ_dist)
 
 #---------------------------------RGB Histogram-----------------------------------------
 elif option == "RGB Histogram":
     if uploaded_file is not None:
-        image1=cv2.imread(image_path1)
+        # image1=cv2.imread(image_path1)
         with st.sidebar:
             modes = st.selectbox("RGB Histogram",("Normal", "Equalized"))
 
@@ -322,19 +327,22 @@ elif option == "RGB Histogram":
             st.image(uploaded_file)
         with resulted_img:
             if modes == "Normal":
-                if image1.ndim == 3:
-                    path_histogram_rgb = rhis.rgb_histogram(image1)
+                if image3.ndim == 3:
+                    path_histogram_rgb, path_dis_rgb = rhis.rgb_histogram(image3)
                     st.image(path_histogram_rgb)
-                elif image1.ndim == 2:
+                    st.image(path_dis_rgb)
+                elif image3.ndim == 2:
                     st.warning("Please upload a colored image")
             elif modes == "Equalized":
-                if image1.ndim == 3:
-                    path_equalized_rgb = rhis.equalized_image_rgb(image1)
+                if image3.ndim == 3:
+                    path_equalized_rgb = rhis.equalized_image_rgb(image3)
                     st.image(path_equalized_rgb)
                     st.subheader("Equalized RGB image histogram and distribution curve")
                     rgb_image_equal = imread(path_equalized_rgb)
-                    st.image(rhis.rgb_histogram(rgb_image_equal))
-                elif image1.ndim == 2:
+                    path_equ_hist_rgb, path_equ_dist_rgb = rhis.rgb_histogram(rgb_image_equal)
+                    st.image(path_equ_hist_rgb)
+                    st.image(path_equ_dist_rgb)
+                elif image3.ndim == 2:
                     st.warning("Please upload a colored image")
 
 #---------------------------------Thresholding------------------------------------------

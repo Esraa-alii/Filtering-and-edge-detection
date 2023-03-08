@@ -48,15 +48,25 @@ def convolve2D(image, kernel, padding=0, strides=1):
 
 def histogram(image):
     histogram_path = "images/output/histogram.png"
+    dist_path = "images/output/dis.png"
     data = image.flatten() # converting the 2-d array to 1-d array
-    fig, ax = plt.subplots(1,2) # creating figure
-    fig.tight_layout(pad=3) # adding space between the subplots
-    ax[0].hist(data) # ploting the histogram for the data
-    ax[0].set_title("Normal Histogram",fontsize = 10)
-    ax[1].hist(data,cumulative=True) # ploting the distribution curve for the data
-    ax[1].set_title("Normal Distribution Curve",fontsize = 10)
-    fig.savefig(histogram_path) # saving the figure
-    return histogram_path
+    # fig.tight_layout(pad=3) # adding space between the subplots
+    bins = np.arange(256)
+    plt.hist(data, bins=bins) # ploting the histogram for the data
+    plt.title("Normal Histogram",fontsize = 10)
+    plt.savefig(histogram_path)
+
+    fig, ax = plt.subplots(1,2)
+    # np.histogram(data)
+    # ax[0].step(bins,data)
+    ax[0].hist(data,cumulative=True,histtype="step") # ploting the distribution curve for the data
+    ax[0].set_title("Normal Cumulative Curve",fontsize = 10)
+
+    ax[1].hist(data, histtype="step")
+    ax[1].set_title("Normal Distribution Curve", fontsize=10)
+    fig.savefig(dist_path) # saving the figure
+
+    return histogram_path, dist_path
 
 def equalized_image(image):
     equalized_img_path = "images/output/equalized-image.png"

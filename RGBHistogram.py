@@ -4,25 +4,44 @@ from skimage.io import imsave
 
 def rgb_histogram(image):
     histogram_rgb_path = "images/output/histogram-rgb.png"
+    dis_rgb_path = "images/output/dis-rgb.png"
     img_r = image[:, :, 0]; img_g = image[:, :, 1]; img_b = image[:, :, 2] # separating the R, G, and B channels into different arrays
     # Converting the 2-d arrays to 1-d arrays
     img_r = img_r.flatten()
     img_g = img_g.flatten()
     img_b = img_b.flatten()
-    fig, ax = plt.subplots(3,2) # creating figure
+    fig, ax = plt.subplots(1,3) # creating figure
+    bins = np.arange(256)
     # Ploting the histograms for the data
-    ax[0, 0].hist(img_r)
-    ax[1, 0].hist(img_g)
-    ax[2, 0].hist(img_b)
-    ax[0,0].set_title("Normal Histogram",fontsize = 10)
-    fig.tight_layout(pad=3) # adding space between the subplots
+    ax[0].hist(img_r, bins=bins, color='r')
+    ax[1].hist(img_g, bins=bins, color='g')
+    ax[2].hist(img_b, bins=bins, color='b')
+    ax[0].set_title("Normal Histogram",fontsize = 10)
+    # fig.tight_layout(pad=3) # adding space between the subplots
     # Ploting the distribution curves for the data
-    ax[0, 1].hist(img_r,cumulative=True)
-    ax[1, 1].hist(img_g,cumulative=True)
-    ax[2, 1].hist(img_b,cumulative=True)
-    ax[0,1].set_title("Normal Distribution Curve",fontsize = 10)
+    # ax[0, 1].hist(img_r,cumulative=True)
+    # ax[1, 1].hist(img_g,cumulative=True)
+    # ax[2, 1].hist(img_b,cumulative=True)
+    # ax[0,1].set_title("Normal Distribution Curve",fontsize = 10)
     fig.savefig(histogram_rgb_path) # saving the figure
-    return histogram_rgb_path
+
+    fig1, ax1 = plt.subplots(1,2) # creating figure
+    plt.figure(figsize=(8,6))
+    ax1[0].hist(img_r, bins=bins, cumulative=True, histtype="step", label="red", color="r")
+    ax1[0].hist(img_g, bins=bins, cumulative=True, histtype="step", label="green", color="g")
+    ax1[0].hist(img_b, bins=bins, cumulative=True, histtype="step", label="blue", color="b")
+    ax1[0].set_title("RGB Cumulative Curve")
+    # plt.savefig(dis_rgb_path)
+
+    ax1[1].hist(img_r, histtype="step", label="red", color="r")
+    ax1[1].hist(img_g, histtype="step", label="green", color="g")
+    ax1[1].hist(img_b, histtype="step", label="blue", color="b")
+    ax1[1].set_title("RGB Distribution Curve")
+    plt.legend(loc='upper right')
+
+    fig1.savefig(dis_rgb_path)
+
+    return histogram_rgb_path, dis_rgb_path
 
 def equalized_image_rgb(image):
     equalized_rgb_img_path = "images/output/equalized-rgb-image.png"
