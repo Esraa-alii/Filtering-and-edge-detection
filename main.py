@@ -8,7 +8,7 @@ import cv2
 import os
 import NormEqua as NE 
 import Edge_detection as edge_detection
-import yehia as y
+import histogram as histor
 import RGBHistogram as rhis
 import Thresholding as thresh
 
@@ -48,15 +48,10 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     plt.imread(uploaded_file)
     image_path1=os.path.join(path,uploaded_file.name)
-    image2 = imread(uploaded_file, True)
-    image3 = imread(uploaded_file)
-    # print(image_path)
-    # plt.savefig('i1.jpeg')
-    # st.image(uploaded_file)
+    image2 = plt.imread(uploaded_file, True)
+    image3 = plt.imread(uploaded_file)
 
-
-
-# hybrid image case 
+# ----------------------------HYPRID IMAGES--------------------------------------------
 if option == "Hybrid image":
     with st.sidebar:
         st.title('Upload the second image')
@@ -64,7 +59,6 @@ if option == "Hybrid image":
         cutoff_lpf = st.number_input('Cuttoff lpf', min_value=1, value=10, step=5)
         cutoff_hpf = st.number_input('Cuttoff hpf', min_value=1, value=10, step=5)
         swap_flag = st.checkbox('Swap images')
-        # image_path2=os.path.join(path,sec_uploaded_file.name)
     input_img, resulted_img = st.columns(2)
     with input_img :
         st.title("Input images")
@@ -89,39 +83,31 @@ if option == "Hybrid image":
             
 
 
-# Apply filter case 
+# ---------------------------- APPLY FILTER---------------------------------------------
 elif option == "Apply filter":
     if uploaded_file is not None:
         with st.sidebar:
-            # st.subheader("Filter type")
             Filter_type = st.radio("Filter type",["Frequency filters","Denoising filters"],horizontal=True)
             if Filter_type =='Frequency filters':
-                # st.subheader("Frequency filter")
                 filters_option = st.selectbox('Choose a filter',('Highpass Filter', 'Lowpass Filter'))
             elif Filter_type =='Denoising filters':
-            # st.subheader("Denoise filter")
                 denoise_option = st.selectbox('Choose a filter',('Gaussian', 'Median', 'Average'))
-            # imagee = uploaded_file.read()
-            # image_path2=os.path.join(path,sec_uploaded_file.name)
-
+            
             image1=cv2.imread(image_path1,0)
-            # image2=cv2.imread(image_path2,0)
             if filters_option == 'Highpass Filter':
                 cut_off_freq = st.number_input('Cuttoff Frequency', min_value=1, value=10, step=5)
             elif filters_option == 'Lowpass Filter':
                 cut_off_freq = st.number_input('Cuttoff Frequency', min_value=1, value=10, step=5)
+
             # denoising filters
             if denoise_option == 'Gaussian':
                 with st.sidebar:
                     sigma = st.number_input('Sigma', min_value=1, value=20, step=2)
-            # elif denoise_option == 'Medin':
-            #         with st.sidebar:
-            #             filter_size = st.number_input('filter size', min_value=0, value=10, step=5)
+            
             elif denoise_option == 'Average' :      
                     with st.sidebar:
                         kernal_length = st.selectbox('Choose kernal length',('3x3', '5x5'))
 
-                        # kernal= st.number_input('min_value=1, value=10, step=5)
                        
 
         input_img, resulted_img = st.columns(2)
@@ -151,11 +137,6 @@ elif option == "Apply filter":
                 if kernal_length == '5x5':
                     filters.apply_average_filter(image1,5)
                 st.image("images/output/average_filter.jpeg")
-
-
-
-
-
 
 # ---------------------------- NORMALIZATION ---------------------------------
 elif option == "Normalize":
@@ -223,30 +204,6 @@ elif option == "Apply noise":
         filters.Apply_salt_and_papper_noise(image1,num_of_white_PX,num_of_black_PX)
         st.image("images/output/Salt & pepper_noise.jpeg")
 
-
-# elif option == "Calculate histogram":
-#     if uploaded_file is not None:
-#         image1=cv2.imread(image_path1, 0)
-#         with st.sidebar:
-#             modes = st.selectbox("Histogram",("Normal","Equalized"))
-
-#         input_img, resulted_img = st.columns(2)
-#         with input_img:
-#             st.title("Input image")
-#             image = Image.open(uploaded_file)
-#             st.image(image1)
-#         with resulted_img:
-#             if modes == "Normal":
-#                 path_histogram = y.histogram(image1)
-#                 st.image(path_histogram)
-#             if modes == "Equalized":
-#                 path_equalized = y.equalized_image(image1)
-#                 st.image(path_equalized) # showing the equalized image
-#                 st.subheader("Equalized image histogram and distribution curve")
-#                 image_equal = plt.imread(path_equalized)
-#                 st.image(y.histogram(image_equal)) # applying histogram functio
-
-
     # ----------------------------Edge detection-------------------------------------------
 elif option == "Edge detection":
     input_img, resulted_img = st.columns(2)
@@ -277,20 +234,15 @@ elif option == "Edge detection":
                 elif canny_kernal == '5x5':
                     st.image(edge_detection.canny_detector(image1, 5, canny_sigma))
             if edge_detect_options == 'Sobel':
-                st.image(y.sobel_filter(image1,modes(sobel)))
+                st.image(edge_detection.sobel_filter(image1,modes(sobel)))
             if edge_detect_options == 'Prewitt':
-                st.image(y.prewitt_filter(image1,modes(prewitt)))
+                st.image(edge_detection.prewitt_filter(image1,modes(prewitt)))
             if edge_detect_options == 'Roberts':
-                st.image(y.roberts_filter(image1,modes(roberts)))
-            # elif canny_kernal == '9x9':
-            #     edge_detection.canny_detector(image1, 9, canny_sigma)
-            #     st.image("images/output/canny_detection.jpeg")
-                
+                st.image(edge_detection.roberts_filter(image1,modes(roberts)))
 
     # ----------------------------Histogram-------------------------------------------
 elif option == "Calculate histogram":
     if uploaded_file is not None:
-        # image1=cv2.imread(image_path1, 0)
         with st.sidebar:
             modes = st.selectbox("Histogram",("Normal","Equalized"))
 
@@ -301,15 +253,15 @@ elif option == "Calculate histogram":
             st.image(image2)
         with resulted_img:
             if modes == "Normal":
-                path_histogram, path_dis = y.histogram(image2)
+                path_histogram, path_dis = edge_detection.histogram(image2)
                 st.image(path_histogram)
                 st.image(path_dis)
             if modes == "Equalized":
-                path_equalized = y.equalized_image(image2)
+                path_equalized = edge_detection.equalized_image(image2)
                 st.image(path_equalized) # showing the equalized image
                 # st.subheader("Equalized image histogram and distribution curve")
                 image_equal = imread(path_equalized, True)
-                path_equ_hist, path_equ_dist = y.histogram(image_equal)
+                path_equ_hist, path_equ_dist = edge_detection.histogram(image_equal)
                 st.image(path_equ_hist) # applying histogram function to get histogram and distribution curve
                 st.image(path_equ_dist)
 
@@ -336,8 +288,9 @@ elif option == "RGB Histogram":
             elif modes == "Equalized":
                 if image3.ndim == 3:
                     path_equalized_rgb = rhis.equalized_image_rgb(image3)
-                    st.image(path_equalized_rgb)
                     st.subheader("Equalized RGB image histogram and distribution curve")
+
+                    st.image(path_equalized_rgb)
                     rgb_image_equal = imread(path_equalized_rgb)
                     path_equ_hist_rgb, path_equ_dist_rgb = rhis.rgb_histogram(rgb_image_equal)
                     st.image(path_equ_hist_rgb)

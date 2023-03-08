@@ -74,9 +74,9 @@
   color: #476d99;
   border-color: #476d99;
 }
-/* .st-bn{
+.st-bn{
         background-color: #476d99;
-    } */
+    }
 .css-k1vhr4 h1 {
   color: white;
 }
@@ -126,3 +126,19 @@ label {
 h1{
   padding: 0px;
 }
+.css-10y5sf6{
+color: #476d99;
+}
+
+.st-c6 {
+  padding-right: 0.5rem;
+  background-color: white;
+}
+
+.css-10trblm {
+  position: relative;
+  flex: 1 1 0%;
+  color: white;
+  margin-left: calc(3rem);
+}
+
