@@ -222,45 +222,68 @@ elif option == "Apply noise":
         st.image("images/output/Salt & pepper_noise.jpeg")
 
 
+# elif option == "Calculate histogram":
+#     if uploaded_file is not None:
+#         image1=cv2.imread(image_path1, 0)
+#         with st.sidebar:
+#             modes = st.selectbox("Histogram",("Normal","Equalized"))
+
+#         input_img, resulted_img = st.columns(2)
+#         with input_img:
+#             st.title("Input image")
+#             image = Image.open(uploaded_file)
+#             st.image(image1)
+#         with resulted_img:
+#             if modes == "Normal":
+#                 path_histogram = y.histogram(image1)
+#                 st.image(path_histogram)
+#             if modes == "Equalized":
+#                 path_equalized = y.equalized_image(image1)
+#                 st.image(path_equalized) # showing the equalized image
+#                 st.subheader("Equalized image histogram and distribution curve")
+#                 image_equal = plt.imread(path_equalized)
+#                 st.image(y.histogram(image_equal)) # applying histogram functio
+
+
     # ----------------------------Edge detection-------------------------------------------
 elif option == "Edge detection":
     input_img, resulted_img = st.columns(2)
-
-    with st.sidebar:
-        edge_detect_options = st.selectbox('Choose detector',('Canny','Sobel','Prewitt','Roberts'))
-    if edge_detect_options == 'Canny detector':
+    
+    if uploaded_file is not None:
+        image1=cv2.imread(image_path1, 0)
         with st.sidebar:
-            canny_kernal = st.selectbox('Select kernal size',('3x3','5x5'))
-            canny_sigma = st.number_input('Sigma', min_value=1, value=10, step=2)
-
-        with input_img :
+            edge_detect_options = st.selectbox('Choose detector',('Canny','Sobel','Prewitt','Roberts'))
+            if edge_detect_options == 'Canny':
+                canny_kernal = st.selectbox('Select kernal size',('3x3','5x5'))
+                canny_sigma = st.number_input('Sigma', min_value=1, value=10, step=2)
+            if edge_detect_options == "Sobel":
+                sobel = st.selectbox("Sobel",("Vertical","Horizontal","Both"))
+            elif edge_detect_options == "Prewitt":
+                prewitt = st.selectbox("Prewitt",("Vertical","Horizontal","Both"))
+            elif edge_detect_options == "Roberts":
+                roberts = st.selectbox("Roberts",("Vertical","Horizontal","Both"))
+                
+        with input_img:
             st.title("Input image")
             image = Image.open(uploaded_file)
-            st.image(uploaded_file)
-
+            st.image(image1)
         with resulted_img:
-            st.title("Output image")
-            image1=cv2.imread(image_path1,0)  
-            if canny_kernal == '3x3':
-                edge_detection.canny_detector(image1, 3, canny_sigma)
-                st.image("images/output/canny_detection.jpeg")
-            elif canny_kernal == '5x5':
-                edge_detection.canny_detector(image1, 5, canny_sigma)
-                st.image("images/output/canny_detection.jpeg")
+            st.title("Output image")  
+            if edge_detect_options == 'Canny':
+                if canny_kernal == '3x3':
+                    st.image(edge_detection.canny_detector(image1, 3, canny_sigma))
+                elif canny_kernal == '5x5':
+                    st.image(edge_detection.canny_detector(image1, 5, canny_sigma))
+            if edge_detect_options == 'Sobel':
+                st.image(y.sobel_filter(image1,modes(sobel)))
+            if edge_detect_options == 'Prewitt':
+                st.image(y.prewitt_filter(image1,modes(prewitt)))
+            if edge_detect_options == 'Roberts':
+                st.image(y.roberts_filter(image1,modes(roberts)))
             # elif canny_kernal == '9x9':
             #     edge_detection.canny_detector(image1, 9, canny_sigma)
             #     st.image("images/output/canny_detection.jpeg")
-
-    with st.sidebar:
-        if edge_detect_options == "Sobel":
-            sobel = st.selectbox("Sobel",("Vertical","Horizontal","Both"))
-            show_output(y.sobel_filter(image,modes(sobel)))
-        if edge_detect_options == "Prewitt":
-            prewitt = st.selectbox("Prewitt",("Vertical","Horizontal","Both"))
-            show_output(y.prewitt_filter(image,modes(prewitt)))
-        if edge_detect_options == "Roberts":
-            roberts = st.selectbox("Roberts",("Vertical","Horizontal","Both"))
-            show_output(y.roberts_filter(image,modes(roberts)))
+                
 
     # ----------------------------Histogram-------------------------------------------
 elif option == "Calculate histogram":

@@ -146,6 +146,7 @@ def canny_detector(image: np.ndarray,kernal_size,sigma):
     Returns:
         _type_: matrix of the image with canny mask applied 
     """
+    path = "images/output/canny_detection.jpeg"
 
     img_grayscale = np.copy(image)
 
@@ -167,7 +168,7 @@ def canny_detector(image: np.ndarray,kernal_size,sigma):
     final_matrix = hysteresis(threshold_matrix, weak_value, strong_value)
     plt.imshow(final_matrix, cmap="gray")
     plt.axis("off")
-    plt.savefig("images/output/canny_detection.jpeg")    
-    return 
+    plt.savefig(path)    
+    return path
 
     # canny_detector(cv2.imread("images/original1.jpeg",0))

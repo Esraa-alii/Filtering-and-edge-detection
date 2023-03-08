@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.signal import convolve2d
+# from scipy.signal import convolve2d
 from skimage.io import imsave
 
 def convolve2D(image, kernel, padding=0, strides=1):
@@ -84,20 +84,20 @@ def paths(mode,path1,image1,path2,image2,path3):
 def sobel_filter(image,mode):
     x_kernal = np.array([[1,0,-1],[2,0,-2],[1,0,-1]]) # vertical Sobel filter
     y_kernal = x_kernal.T # horizontal Sobel filter
-    image_x = convolve2d(image,x_kernal) # applying the vertical filter to the image
-    image_y = convolve2d(image,y_kernal) # applying the horizontal filter to the image
+    image_x = convolve2D(image,x_kernal) # applying the vertical filter to the image
+    image_y = convolve2D(image,y_kernal) # applying the horizontal filter to the image
     return paths(mode,"sobel-x.png",image_x,"sobel-y.png",image_y,"new-sobel.png")
 
 def roberts_filter(image,mode):
     kernal_x = np.array([[1,0],[0,-1]]) # vertical roberts filter
     kernal_y = np.flip(kernal_x,0).T #horizontal roberts filter
-    image_x = convolve2d(image,kernal_x) # applying the 1st filter to the image
-    image_y = convolve2d(image,kernal_y) # applying the 2nd filter to the image
+    image_x = convolve2D(image,kernal_x) # applying the 1st filter to the image
+    image_y = convolve2D(image,kernal_y) # applying the 2nd filter to the image
     return paths(mode,"roberts-x.png",image_x,"roberts-y.png",image_y,"new-roberts.png")
 
 def prewitt_filter(image,mode):
     kernal_x = np.array([[1,0,-1],[1,0,-1],[1,0,-1]]) # x-axis filter
     kernal_y = kernal_x.T # y-axis filter
-    image_x = convolve2d(image,kernal_x) # applying the 1st filter to the image
-    image_y = convolve2d(image,kernal_y) # applying the 2nd filter to the image
+    image_x = convolve2D(image,kernal_x) # applying the 1st filter to the image
+    image_y = convolve2D(image,kernal_y) # applying the 2nd filter to the image
     return paths(mode,"prewitt-x.png",image_x,"prewitt-y.png",image_y,"new-prewitt.png")
