@@ -264,60 +264,93 @@ elif option == "Edge detection":
 
     # ----------------------------Histogram-------------------------------------------
 elif option == "Calculate histogram":
-    with st.sidebar:
-        modes = st.selectbox("Histogram",("Normal","Equalized"))
-    if modes is "Normal":
-        path_histogram = y.histogram(image)
-        show_output(path_histogram)
-    if modes is "Equalized":
-        path_equalized = y.equalized_image(image)
-        show_output(path_equalized) # showing the equalized image
-        st.subheader("Equalized image histogram and distribution curve")
-        image_equal = plt.imread(path_equalized)
-        st.image(y.histogram(image_equal)) # applying histogram function to get histogram and distribution curve
+    if uploaded_file is not None:
+        image1=cv2.imread(image_path1, 0)
+        with st.sidebar:
+            modes = st.selectbox("Histogram",("Normal","Equalized"))
+
+        input_img, resulted_img = st.columns(2)
+        with input_img:
+            st.title("Input image")
+            image = Image.open(uploaded_file)
+            st.image(image1)
+        with resulted_img:
+            if modes is "Normal":
+                path_histogram = y.histogram(image1)
+                st.image(path_histogram)
+            if modes is "Equalized":
+                path_equalized = y.equalized_image(image1)
+                st.image(path_equalized) # showing the equalized image
+                st.subheader("Equalized image histogram and distribution curve")
+                image_equal = plt.imread(path_equalized)
+                st.image(y.histogram(image_equal)) # applying histogram function to get histogram and distribution curve
 
 #---------------------------------RGB Histogram-----------------------------------------
 elif option == "RGB Histogram":
-    with st.sidebar:
-        modes = st.selectbox("RGB Histogram",("Normal", "Equalized"))
-    if modes == "Normal":
-        if image.ndim == 3:
-            path_histogram_rgb = rhis.rgb_histogram(image)
-            show_output(path_histogram_rgb)
-        elif image.ndim == 2:
-            st.warning("Please upload a colored image")
-    elif modes == "Equalized":
-        if image.ndim == 3:
-            path_equalized_rgb = rhis.equalized_image_rgb(image)
-            show_output(path_equalized_rgb) 
-            st.subheader("Equalized RGB image histogram and distribution curve")
-            rgb_image_equal = imread(path_equalized_rgb)
-            st.image(rhis.rgb_histogram(rgb_image_equal))
-        elif image.ndim == 2:
-            st.warning("Please upload a colored image")
+    if uploaded_file is not None:
+        image1=cv2.imread(image_path1)
+        with st.sidebar:
+            modes = st.selectbox("RGB Histogram",("Normal", "Equalized"))
+
+        input_img, resulted_img = st.columns(2)
+        with input_img:
+            st.title("Input image")
+            image = Image.open(uploaded_file)
+            st.image(uploaded_file)
+        with resulted_img:
+            if modes == "Normal":
+                if image1.ndim == 3:
+                    path_histogram_rgb = rhis.rgb_histogram(image1)
+                    st.image(path_histogram_rgb)
+                elif image1.ndim == 2:
+                    st.warning("Please upload a colored image")
+            elif modes == "Equalized":
+                if image1.ndim == 3:
+                    path_equalized_rgb = rhis.equalized_image_rgb(image1)
+                    st.image(path_equalized_rgb)
+                    st.subheader("Equalized RGB image histogram and distribution curve")
+                    rgb_image_equal = imread(path_equalized_rgb)
+                    st.image(rhis.rgb_histogram(rgb_image_equal))
+                elif image1.ndim == 2:
+                    st.warning("Please upload a colored image")
 
 #---------------------------------Thresholding------------------------------------------
 elif option == "Thresholding":
-    threshold = 0; threshold_1 = 0; threshold_2 = 0; threshold_3 = 0; threshold_4 = 0
-    thresh_mode = 0
-    with st.sidebar:
-        edge_detect = st.radio("Thresholding Technique", ["Manual Thresholding", "Otsu's Thresholding"], horizontal=True)
-        if edge_detect == "Manual Thresholding":
-            thresh_mode = 0
-        elif edge_detect == "Otsu's Thresholding":
-            thresh_mode = 1
+    if uploaded_file is not None:
+        threshold = 0; threshold_1 = 0; threshold_2 = 0; threshold_3 = 0; threshold_4 = 0
+        thresh_mode = 0
+        image1=cv2.imread(image_path1)
+        with st.sidebar:
+            edge_detect = st.selectbox("Thresholding Technique", ["Manual Thresholding", "Otsu's Thresholding"])
+            if edge_detect == "Manual Thresholding":
+                thresh_mode = 0
+            elif edge_detect == "Otsu's Thresholding":
+                thresh_mode = 1
 
-        threshold_type = st.radio("Thresholding Type", ["Local", "Global"], horizontal=True)
-        if threshold_type == "Local":
-            if thresh_mode == 0:
-                threshold_1 = st.slider(label="Threshold Value 1", min_value=0, max_value=255, step=1)
-                threshold_2 = st.slider(label="Threshold Value 2", min_value=0, max_value=255, step=1)
-                threshold_3 = st.slider(label="Threshold Value 3", min_value=0, max_value=255, step=1)
-                threshold_4 = st.slider(label="Threshold Value 4", min_value=0, max_value=255, step=1)
-            local_type = thresh.local_thresholding(image, threshold_1, threshold_2, threshold_3, threshold_4, thresh_mode)
-            show_output(local_type)
-        elif threshold_type == "Global":
-            if thresh_mode == 0:
-                threshold =st.slider(label="Threshold Value", min_value=0, max_value=255, step=1)
-            global_type = thresh.global_thresholding(image, threshold, thresh_mode)
-            show_output(global_type)
+            threshold_type = st.radio("Thresholding Type", ["Local", "Global"], horizontal=True)
+            if threshold_type == "Local":
+                if thresh_mode == 0:
+                    threshold_1 = st.slider(label="Threshold Value 1", min_value=0, max_value=255, step=1)
+                    threshold_2 = st.slider(label="Threshold Value 2", min_value=0, max_value=255, step=1)
+                    threshold_3 = st.slider(label="Threshold Value 3", min_value=0, max_value=255, step=1)
+                    threshold_4 = st.slider(label="Threshold Value 4", min_value=0, max_value=255, step=1)
+                elif threshold_type == "Global":
+                    if thresh_mode == 0:
+                        threshold =st.slider(label="Threshold Value", min_value=0, max_value=255, step=1)
+                
+        input_img, resulted_img = st.columns(2)
+        with input_img:
+            st.title("Input image")
+            image = Image.open(uploaded_file)
+            st.image(uploaded_file)
+        with resulted_img:
+            if threshold_type == "Local":
+                st.title("Output image")
+                local_type = thresh.local_thresholding(image1, threshold_1, threshold_2, threshold_3, threshold_4, thresh_mode)
+                st.image(local_type)
+            elif threshold_type == "Global":
+                st.title("Output image")
+                global_type = thresh.global_thresholding(image1, threshold, thresh_mode)
+                st.image(global_type)
+    
+        

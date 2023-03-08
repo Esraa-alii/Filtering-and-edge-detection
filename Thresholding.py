@@ -79,7 +79,7 @@ def local_thresholding(image, t1, t2, t3, t4, mode):
 
     
     plt.imshow(final_img, cmap = 'gray')
-    path = "images/workspace/local.png"
+    path = "images/output/local.png"
     plt.savefig(path)
     return path
 
@@ -101,6 +101,6 @@ def global_thresholding(image, t, mode):
     final_img[gray < t] = 0
 
     plt.imshow(final_img, cmap = 'gray')
-    path = "images/workspace/global.png"
+    path = "images/output/global.png"
     plt.savefig(path)
     return path
