@@ -275,10 +275,10 @@ elif option == "Calculate histogram":
             image = Image.open(uploaded_file)
             st.image(image1)
         with resulted_img:
-            if modes is "Normal":
+            if modes == "Normal":
                 path_histogram = y.histogram(image1)
                 st.image(path_histogram)
-            if modes is "Equalized":
+            if modes == "Equalized":
                 path_equalized = y.equalized_image(image1)
                 st.image(path_equalized) # showing the equalized image
                 st.subheader("Equalized image histogram and distribution curve")

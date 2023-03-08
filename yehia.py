@@ -47,7 +47,7 @@ def convolve2D(image, kernel, padding=0, strides=1):
     return output
 
 def histogram(image):
-    histogram_path = "histogram.png"
+    histogram_path = "images/output/histogram.png"
     data = image.flatten() # converting the 2-d array to 1-d array
     fig, ax = plt.subplots(1,2) # creating figure
     fig.tight_layout(pad=3) # adding space between the subplots
@@ -59,7 +59,7 @@ def histogram(image):
     return histogram_path
 
 def equalized_image(image):
-    equalized_img_path = "equalized-image.png"
+    equalized_img_path = "images/output/equalized-image.png"
     his, be = np.histogram(image.flatten()) # getting the histogram for the image
     pdf = his.astype(float)/sum(his) # getting the probability density function
     cdf = np.cumsum(pdf) # getting the cumulative distribution function for the image

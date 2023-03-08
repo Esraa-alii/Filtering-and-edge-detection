@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from skimage.io import imsave
 
 def rgb_histogram(image):
-    histogram_rgb_path = "images/output/histogram-rgb.jpeg"
+    histogram_rgb_path = "images/output/histogram-rgb.png"
     img_r = image[:, :, 0]; img_g = image[:, :, 1]; img_b = image[:, :, 2] # separating the R, G, and B channels into different arrays
     # Converting the 2-d arrays to 1-d arrays
     img_r = img_r.flatten()
